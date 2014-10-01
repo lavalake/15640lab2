@@ -1,16 +1,17 @@
+package server;
 public class RemoteObjectRef
 {
     String IP_adr;
     int Port;
     int Obj_Key;
-    String Remote_Interface_Name;
+    String Remote_Object_Name;
 
     public RemoteObjectRef(String ip, int port, int obj_key, String riname) 
     {
 	IP_adr=ip;
 	Port=port;
 	Obj_Key=obj_key;
-	Remote_Interface_Name=riname;
+	Remote_Object_Name=riname;
     }
 
     // this method is important, since it is a stub creator.
@@ -34,6 +35,42 @@ public class RemoteObjectRef
 	// arguments etc., in a marshalled form, and CM (yourRMI) sends it out to 
 	// another place. 
 	// Here let it return null.
-	return null;
+    try{
+        Class stub = Class.forName(Remote_Object_Name+"_stub");
+        try {
+            Object stubObject = stub.newInstance();
+            return stubObject;
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }catch (ClassNotFoundException e) {
+        
+    }
+	
+    }
+    
+    void setIpAdd(String ipAdd){
+        IP_adr = ipAdd;
+    }
+    
+    void setPort(int portNum){
+        Port = portNum;
+    }
+    
+    void setName(String remoteObjName){
+        Remote_Object_Name = remoteObjName;
+    }
+    
+    String getIpAdd(){
+        return IP_adr;
+    }
+    
+    int getPort(){
+        return Port;
+    }
+    
+    String getRemoteObjName(){
+        return Remote_Interface_Name;
     }
 }
